@@ -42,7 +42,7 @@ print("Eager execution: {}".format(tf.executing_eagerly()))
 print("File pointer...")
 # train_dataset_url = "http://download.tensorflow.org/data/iris_training.csv"
 # train_dataset_fp = tf.keras.utils.get_file(fname="iris_training.csv",origin=train_dataset_url)
-train_dataset_fp = "iris_training.csv"
+train_dataset_fp = ".\data\iris_training.csv"
 print("Local copy of the dataset file: {}".format(train_dataset_fp))
 
 print("Mapping dataset...")
@@ -113,7 +113,20 @@ axes[1].plot(train_accuracy_results)
 
 # plt.show()
 
-# Metrics
+# Run test dataset
+#test_url = "http://download.tensorflow.org/data/iris_test.csv"
+
+#test_fp = tf.keras.utils.get_file(fname=os.path.basename(test_url),origin=test_url)
+test_fp = ".\data\iris_test.csv"
+
+test_dataset = tf.data.TextLineDataset(test_fp)
+test_dataset = test_dataset.skip(1)             # skip header row
+test_dataset = test_dataset.map(parse_csv)      # parse each row with the funcition created earlier
+test_dataset = test_dataset.shuffle(1000)       # randomize
+test_dataset = test_dataset.batch(32)           # use the same batch size as the training set
+
+# Predictions
+print("Predicting!")
 test_accuracy = tfe.metrics.Accuracy()
 
 for (x, y) in tfe.Iterator(test_dataset):
