@@ -115,7 +115,6 @@ axes[1].plot(train_accuracy_results)
 
 # Run test dataset
 #test_url = "http://download.tensorflow.org/data/iris_test.csv"
-
 #test_fp = tf.keras.utils.get_file(fname=os.path.basename(test_url),origin=test_url)
 test_fp = ".\data\iris_test.csv"
 
